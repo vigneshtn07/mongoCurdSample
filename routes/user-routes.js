@@ -33,10 +33,10 @@ router.post('/saveAll', (request, response) => {
  */
 router.post('/getUsers/:page', (request, response) => {
     var perPage = request.body.perPage || 10;
-    var workSpaceType = request.body.workSpaceType;
-    var page = request.params.page || 1
-    var query = workSpaceType ? {'workPlace': workSpaceType} : {};
-    UserModel.find({query}).skip((perPage * page) - perPage).limit(perPage).exec((err, users) => {
+    // var workSpaceType = request.body.workSpaceType;
+    var page = parseInt(request.params.page) || 1
+    // var query = workSpaceType ? {'workPlace': workSpaceType} : {};
+    UserModel.find({}).skip((perPage * page) - perPage).limit(perPage).exec((err, users) => {
         UserModel.countDocuments().exec((err, count) => {
             if (err) return next(err);
             var reponse = {users: users, pages: Math.ceil(count / perPage), currentPage: page};
